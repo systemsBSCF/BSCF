@@ -4,8 +4,8 @@ import axios from 'axios';
 const ZOHO_OAUTH_URL = 'https://accounts.zoho.com/oauth/v2/auth';
 const ZOHO_TOKEN_URL = 'https://accounts.zoho.com/oauth/v2/token';
 
-const CLIENT_ID = '1000.HYJ53AS3JK7BKH1KDTIZT30ZO7K2FM';
-const CLIENT_SECRET = 'c074cef884ce31fc3e7466a85c01f349ccad6068b7';
+const CLIENT_ID = '1000.RTEYWSCIDPIKX6UHL9LBDM3HRQJIUQ';
+const CLIENT_SECRET = 'a61bdf096c135e46c414330e3536b8579ef6495b6e';
 const REDIRECT_URI = 'https://bscf.vercel.app/';
 
 export const getAuthorizationUrl = () => {
