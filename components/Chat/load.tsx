@@ -15,7 +15,7 @@ export const Load = () => {
       const accessToken = data.access_token;
 
       // Perform the GET request to fetch the record based on the user ID
-      const apiUrl = `https://www.zohoapis.com/crm/v2/Leads/${userId}`;
+      const apiUrl = `https://www.zohoapis.com/crm/v2/Contacts/${userId}`;
       const response = await makeApiRequest(apiUrl, accessToken);
 
       // Print the response to the console
