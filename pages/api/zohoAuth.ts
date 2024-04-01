@@ -6,7 +6,7 @@ const ZOHO_TOKEN_URL = 'https://accounts.zoho.com/oauth/v2/token';
 
 const CLIENT_ID = '1000.RTEYWSCIDPIKX6UHL9LBDM3HRQJIUQ';
 const CLIENT_SECRET = 'a61bdf096c135e46c414330e3536b8579ef6495b6e';
-const REDIRECT_URI = 'https://bscf.vercel.app/';
+const REDIRECT_URI = 'https://bscf.vercel.app';
 
 export const getAuthorizationUrl = () => {
   const params = new URLSearchParams({
