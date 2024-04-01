@@ -2,41 +2,24 @@ import { Chat } from "@/components/Chat/Chat";
 import { Footer } from "@/components/Layout/Footer";
 import { Navbar } from "@/components/Layout/Navbar";
 import { Message } from "@/types";
+import { refreshAccessToken } from "@/pages/api/zohoAuth";
 import Head from "next/head";
-import {
-  getAuthorizationUrl,
-  getAccessToken,
-  refreshAccessToken,
-} from "@/pages/api/zohoAuth";
-
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
+  const [accessToken, setAccessToken] = useState("");
 
-    if (code) {
-      // Exchange the authorization code for access token
-      getAccessToken(code)
-        .then((data) => {
-          // Store the access token and refresh token securely
-          localStorage.setItem("accessToken", data.access_token);
-          localStorage.setItem("refreshToken", data.refresh_token);
-          // Redirect to the home page or any other desired page
-          window.location.href = "/";
-        })
-        .catch((error) => {
-          console.error("Error getting access token:", error);
-        });
-    } else {
-      // Check if the access token exists
-      const accessToken = localStorage.getItem("accessToken");
-      if (!accessToken) {
-        // Redirect to the Zoho authorization URL
-        window.location.href = getAuthorizationUrl();
+  useEffect(() => {
+    const getAccessToken = async () => {
+      try {
+        const data = await refreshAccessToken();
+        setAccessToken(data.access_token);
+      } catch (error) {
+        console.error("Error refreshing access token:", error);
       }
-    }
+    };
+
+    getAccessToken();
   }, []);
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
