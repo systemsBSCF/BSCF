@@ -1,6 +1,7 @@
 // components/chat/Load.tsx
 import { useState } from "react";
-import { refreshAccessToken, makeApiRequest } from "@/pages/api/zohoAuth";
+import axios from "axios";
+import { refreshAccessToken } from "@/pages/api/zohoAuth";
 
 export const Load = () => {
   const [userId, setUserId] = useState("");
@@ -10,23 +11,21 @@ export const Load = () => {
     setLoading(true);
 
     try {
-      // Generate a new access token using the refresh token
       const data = await refreshAccessToken();
       const accessToken = data.access_token;
 
-      // Perform the GET request to fetch the record based on the user ID
-      const apiUrl = `https://www.zohoapis.com/crm/v2/Contacts/${userId}`;
-      const response = await makeApiRequest(apiUrl, accessToken);
+      const response = await axios.post("/api/zoho", {
+        userId,
+        accessToken,
+      });
 
-      // Print the response to the console
-      console.log("Record:", response);
+      console.log("Record:", response.data);
     } catch (error) {
       console.error("Error fetching record:", error);
     }
 
     setLoading(false);
   };
-
   return (
     <div>
       <input
