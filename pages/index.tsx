@@ -1,29 +1,15 @@
+// index.tsx
 import { Chat } from "@/components/Chat/Chat";
+import { Load } from "@/components/Chat/load";
 import { Footer } from "@/components/Layout/Footer";
 import { Navbar } from "@/components/Layout/Navbar";
 import { Message } from "@/types";
-import { refreshAccessToken } from "@/pages/api/zohoAuth";
 import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
-  const [accessToken, setAccessToken] = useState("");
-
-  useEffect(() => {
-    const getAccessToken = async () => {
-      try {
-        const data = await refreshAccessToken();
-        setAccessToken(data.access_token);
-      } catch (error) {
-        console.error("Error refreshing access token:", error);
-      }
-    };
-
-    getAccessToken();
-  }, []);
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -32,7 +18,6 @@ export default function Home() {
 
   const handleSend = async (message: Message) => {
     const updatedMessages = [...messages, message];
-
     setMessages(updatedMessages);
     setLoading(true);
 
@@ -52,7 +37,6 @@ export default function Home() {
     }
 
     const data = response.body;
-
     if (!data) {
       return;
     }
@@ -124,12 +108,11 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <div className="flex flex-col h-screen">
         <Navbar />
-
         <div className="flex-1 overflow-auto sm:px-10 pb-4 sm:pb-10">
           <div className="max-w-[800px] mx-auto mt-4 sm:mt-12">
+            <Load />
             <Chat
               messages={messages}
               loading={loading}

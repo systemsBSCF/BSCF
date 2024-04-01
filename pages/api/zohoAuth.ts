@@ -3,8 +3,8 @@ import axios from 'axios';
 
 const ZOHO_TOKEN_URL = 'https://accounts.zoho.com/oauth/v2/token';
 
-const CLIENT_ID = process.env.ZOHO_CLIENT_ID;
-const CLIENT_SECRET = process.env.ZOHO_CLIENT_SECRET;
+const CLIENT_ID = 'YOUR_CLIENT_ID';
+const CLIENT_SECRET = 'YOUR_CLIENT_SECRET';
 const REFRESH_TOKEN = process.env.ZOHO_REFRESH_TOKEN;
 
 export const refreshAccessToken = async () => {
@@ -16,4 +16,19 @@ export const refreshAccessToken = async () => {
   });
 
   return response.data;
+};
+
+export const makeApiRequest = async (url: string, accessToken: string) => {
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Zoho-oauthtoken ${accessToken}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error making API request:', error);
+    throw error;
+  }
 };
